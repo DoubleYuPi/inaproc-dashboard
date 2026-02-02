@@ -78,12 +78,18 @@ st.markdown("Dashboard untuk menampilkan data Paket E-Purchasing dari E-Katalog 
 # Sidebar for inputs
 st.sidebar.header("⚙️ Konfigurasi")
 
-# JWT Token Input
-jwt_token = st.sidebar.text_input(
-    "JWT Token INAPROC:",
-    type="password",
-    help="Masukkan JWT token Anda dari INAPROC"
-)
+# JWT Token - Try to load from secrets, fallback to input
+try:
+    jwt_token = st.secrets["INAPROC_JWT_TOKEN"]
+    st.sidebar.success("✅ Token loaded from secrets")
+except:
+    jwt_token = st.sidebar.text_input(
+        "JWT Token INAPROC:",
+        type="password",
+        help="Masukkan JWT token Anda dari INAPROC"
+    )
+    if jwt_token:
+        st.sidebar.info("💡 Tip: Simpan token di Streamlit Secrets untuk keamanan")
 
 # Endpoint selection
 st.sidebar.subheader("📡 Pilih Sumber Data")
@@ -132,6 +138,16 @@ fetch_button = st.sidebar.button("🔄 Ambil Data", type="primary", use_containe
 # Main content
 if not jwt_token:
     st.info("👈 Silakan masukkan JWT Token di sidebar untuk memulai")
+    st.warning("""
+    **Untuk menyimpan token secara permanen:**
+    1. Buka Settings app Anda di Streamlit Cloud
+    2. Klik tab "Secrets"
+    3. Tambahkan:
+    ```
+    INAPROC_JWT_TOKEN = "your_token_here"
+    ```
+    4. Save dan restart app
+    """)
 else:
     if fetch_button:
         try:
