@@ -10,9 +10,7 @@ class InaprocAPIClient:
         self.headers = {
             "Authorization": f"Bearer {jwt_token}",
             "Accept": "application/json",
-            "Content-Type": "application/json",
-            "User-Agent": "HTTPie/3.2.1",
-            "Accept-Encoding": "gzip, deflate"
+            "Content-Type": "application/json"
         }
     
     def get_ekatalog_data(
