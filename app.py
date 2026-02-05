@@ -11,6 +11,7 @@ class InaprocAPIClient:
             "Authorization": f"Bearer {jwt_token}",
             "Accept": "application/json",
             "Content-Type": "application/json"
+            "User-Agent": "curl/8.5.0"
         }
     
     def get_ekatalog_data(
